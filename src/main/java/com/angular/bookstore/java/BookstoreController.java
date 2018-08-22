@@ -3,6 +3,7 @@ package com.angular.bookstore.java;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +31,17 @@ public class BookstoreController {
 	}
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public Bookstore getBook(@PathVariable("id") Long id) {
-		return this.book.stream().filter(book -> book.getBookId() == id).findFirst().orElse(null);
+		return this.book.stream().filter(book -> book.getBookId()== id).findFirst().orElse(null);
+	}
+	@RequestMapping(value = "/bookName/{name}", method = RequestMethod.GET)
+	public List<String> getBookName(@PathVariable("name") String name) {
+		List<String> bookList=new ArrayList<String>();
+		for(Bookstore bookName:this.book){
+			if(bookName.getBookName().contains(name)){
+				bookList.add(bookName.getBookName());
+			}
+		}
+		return bookList;
 	}
 	@RequestMapping(method = RequestMethod.POST)
 	public List<Bookstore> saveBook(@RequestBody Bookstore book) {
@@ -59,8 +70,10 @@ public class BookstoreController {
 		List<Bookstore> books = new ArrayList<>();
 		Bookstore book1 = buildBook(1L, "Angular-Basics", 550L, "Jacob Markus");
 		Bookstore book2 = buildBook(2L, "Angular-Advanced", 950L, "Stephen Markus");
+		Bookstore book3 = buildBook(2L, "Angular-Base", 350L, "Stephen Markus");
 		books.add(book1);
 		books.add(book2);
+		books.add(book3);
 		return books;
 	}
 	
