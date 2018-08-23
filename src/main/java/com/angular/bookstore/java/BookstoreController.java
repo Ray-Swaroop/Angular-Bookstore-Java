@@ -33,8 +33,14 @@ public class BookstoreController {
 	public Bookstore getBook(@PathVariable("id") Long id) {
 		return this.book.stream().filter(book -> book.getBookId()== id).findFirst().orElse(null);
 	}
+	
 	@RequestMapping(value = "/bookName/{name}", method = RequestMethod.GET)
-	public List<String> getBookName(@PathVariable("name") String name) {
+	public Bookstore getBookDetails(@PathVariable("name") String bookName) {
+		return this.book.stream().filter(book -> book.getBookName().equalsIgnoreCase(bookName)).findFirst().orElse(null);
+	}
+	
+	@RequestMapping(value = "/searchBook/{search}", method = RequestMethod.GET)
+	public List<String> getBookName(@PathVariable("search") String name) {
 		List<String> bookList=new ArrayList<String>();
 		for(Bookstore bookName:this.book){
 			if(bookName.getBookName().contains(name)){
